@@ -10,7 +10,7 @@ interface Props {
 }
 
 function ProtectedRoute({ children }: Props) {
-    const [isAuthorized, setIsAuthorized] = useState(false)
+    const [isAuthorized, setIsAuthorized] = useState<boolean | 'loading'>('loading'); // Initial state set to 'loading'
 
     useEffect(() => {
         auth().catch(() => {
@@ -50,11 +50,14 @@ function ProtectedRoute({ children }: Props) {
         }
     }
 
-    if (isAuthorized === null) {
+    if (isAuthorized === 'loading') {
         return <div>Loading...</div>
     }
 
-    return isAuthorized ? children : <Navigate to="/login" />
+    if (!isAuthorized) {
+        return <Navigate to="/login" />
+    }
+    return children
 }
 
 export default ProtectedRoute

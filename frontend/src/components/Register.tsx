@@ -2,7 +2,6 @@ import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { Button, Checkbox, Group, TextInput } from '@mantine/core';
 import api from "../api";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 
 export default function RegisterForm() {
     const [loading, setLoading] = useState(false)
@@ -24,9 +23,7 @@ export default function RegisterForm() {
         setLoading(true)
 
         try {
-            const res = await api.post("/api/users/", { username: values.username, password: values.password })
-            localStorage.setItem(ACCESS_TOKEN, res.data.access)
-            localStorage.setItem(REFRESH_TOKEN, res.data.refresh)
+            await api.post("/api/users/", { username: values.username, password: values.password })
         } catch (error) {
             alert(error) // TODO: show notification
         } finally {
