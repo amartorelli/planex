@@ -24,7 +24,7 @@ export default function RegisterForm() {
         setLoading(true)
 
         try {
-            const res = await api.post("/register", { username: values.username, password: values.password })
+            const res = await api.post("/api/users/", { username: values.username, password: values.password })
             localStorage.setItem(ACCESS_TOKEN, res.data.access)
             localStorage.setItem(REFRESH_TOKEN, res.data.refresh)
         } catch (error) {
@@ -35,12 +35,12 @@ export default function RegisterForm() {
     }
 
     return (
-        <form onSubmit={form.onSubmit(handleSubmit)}>
+        <form onSubmit={form.onSubmit(handleSubmit)} method="post">
             <TextInput
-                label="Email"
-                placeholder="your@email.com"
-                key={form.key('email')}
-                {...form.getInputProps('email')}
+                label="Username"
+                placeholder="Username"
+                key={form.key('username')}
+                {...form.getInputProps('username')}
             />
             <TextInput
                 withAsterisk
@@ -49,14 +49,14 @@ export default function RegisterForm() {
                 key={form.key('password')}
                 {...form.getInputProps('password')}
             />
-            {/* <Checkbox
+            <Checkbox
                 mt="md"
                 label="I agree with the terms and conditions"
                 key={form.key('termsOfService')}
                 {...form.getInputProps('termsOfService', { type: 'checkbox' })}
-            /> */}
+            />
             <Group justify="flex-end" mt="md">
-                <Button type="submit">Submit</Button>
+                <Button type="submit">Register</Button>
             </Group>
         </form>
     )
